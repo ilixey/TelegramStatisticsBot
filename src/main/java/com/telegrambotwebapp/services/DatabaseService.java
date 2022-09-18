@@ -13,6 +13,11 @@ public class DatabaseService {
 
     private final String SELECT_ACTIVITY = "select activities.id, users.name, users.surname, activities.activity, activities.duration, activities.publication_date from activities LEFT JOIN users ON activities.user_id = users.id";
 
+    /**
+     * Get a connection to the database.
+     *
+     * @return A connection to the database.
+     */
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -26,6 +31,11 @@ public class DatabaseService {
         return connection;
     }
 
+    /**
+     * It gets all the activities from the database and returns them as a list of ActivityEntity objects
+     *
+     * @return A list of ActivityEntity objects.
+     */
     public List<ActivityEntity> getAllActivities(){
         List<ActivityEntity> list = new LinkedList<>();
         try (Connection connection = getConnection();

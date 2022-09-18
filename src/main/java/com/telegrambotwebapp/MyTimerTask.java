@@ -14,6 +14,7 @@ public class MyTimerTask extends TimerTask {
         this.statisticsBot = statisticsBot;
     }
     @Override
+    // The method that is called every time the timer runs.
     public void run() {
         try {
             statisticsBot.sendStatistics();

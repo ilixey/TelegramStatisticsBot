@@ -6,6 +6,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.telegrambotwebapp.entities.ActivityEntity;
 import com.telegrambotwebapp.services.DatabaseService;
+import com.telegrambotwebapp.services.MailService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -21,6 +22,7 @@ import java.util.List;
 public class StatisticsBot extends TelegramLongPollingBot {
 
     DatabaseService databaseService = new DatabaseService();
+    //MailService mailService = new MailService();
 
     private List<Long> chatIdList = new LinkedList<>();
 
@@ -41,6 +43,8 @@ public class StatisticsBot extends TelegramLongPollingBot {
         }
     }
 
+    // Creating a pdf file with all activities from database and sending it to all users who have ever sent a message to
+    // the bot.
     public void sendStatistics() throws TelegramApiException, IOException {
         Document document = new Document();
         List<ActivityEntity> list = databaseService.getAllActivities();
@@ -50,6 +54,7 @@ public class StatisticsBot extends TelegramLongPollingBot {
             for (ActivityEntity activity: list){
                 document.add((new Paragraph("Id: " + activity.getId() + "\n" + "Name" + activity.getName() + "\n" + "Surname: " + activity.getSurname() + "\n" + "Activity: " + activity.getActivity() + "\n" + "Duration: " + activity.getDuration() + " часов" + "\n" + "Date of publish" + activity.getDate() + "\n\n\n")));
             }
+
             document.close();
             pdfWriter.close();
 
@@ -62,6 +67,8 @@ public class StatisticsBot extends TelegramLongPollingBot {
             sendDocument.setChatId(chatId);
             execute(sendDocument);
         }
+
+        //mailService.sendMessage();
 
 //        StringBuilder stringBuilder = new StringBuilder();
 //        for (ActivityEntity activity: list){
