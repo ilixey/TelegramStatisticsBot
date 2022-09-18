@@ -8,7 +8,7 @@ public class ActivityEntity {
     private String name;
     private String surname;
     private String activity;
-    private long duration;
+    private double duration;
     private Date date;
 
     public long getId() {
@@ -27,7 +27,7 @@ public class ActivityEntity {
         return activity;
     }
 
-    public long getDuration() {
+    public double getDuration() {
         return duration;
     }
 
@@ -35,7 +35,7 @@ public class ActivityEntity {
         return date;
     }
 
-    public ActivityEntity(long id, String name, String surname, String activity, long duration, Date date) {
+    public ActivityEntity(long id, String name, String surname, String activity, double duration, Date date) {
         this.id = id;
         this.name = name;
         this.surname = surname;

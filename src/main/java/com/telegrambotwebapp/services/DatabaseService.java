@@ -32,7 +32,7 @@ public class DatabaseService {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACTIVITY)){
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                list.add(new ActivityEntity(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("activity"), resultSet.getLong("duration"), resultSet.getDate("publication_date")));
+                list.add(new ActivityEntity(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("activity"), resultSet.getDouble("duration"), resultSet.getDate("publication_date")));
             }
             return list;
         } catch (SQLException e) {
