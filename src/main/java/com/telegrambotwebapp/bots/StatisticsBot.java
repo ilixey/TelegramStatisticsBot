@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,12 +55,15 @@ public class StatisticsBot extends TelegramLongPollingBot {
 //            sendMessage.setChatId(chatId);
 //            execute(sendMessage);
 //        }
+        File file = new File("test.pdf");
         Document document = new Document();
         try{
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("test.pdf"));
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             for (ActivityEntity activity: list){
-                document.add((new Paragraph("Id: " + activity.getId() + "\n" + "Name" + activity.getName() + "\n" + "Surname: " + activity.getSurname() + "\n" + "Activity: " + activity.getActivity() + "\n" + "Duration: " + activity.getDuration() + " часов" + "\n" + "Date of publish" + activity.getDate() + "\n\n\n")));
+                long actDate = activity.getDate().getTime();
+                Date date = new Date(actDate);
+                document.add((new Paragraph("Id: " + activity.getId() + "\n" + "Name: " + activity.getName() + "\n" + "Surname: " + activity.getSurname() + "\n" + "Activity: " + activity.getActivity() + "\n" + "Duration: " + activity.getDuration() + " часов" + "\n" + "Date of publish: " + date.toString() + "\n\n\n")));
             }
 
             document.close();
@@ -69,7 +73,7 @@ public class StatisticsBot extends TelegramLongPollingBot {
             throw new RuntimeException(e);
         }
         SendDocument sendDocument = new SendDocument();
-        sendDocument.setDocument(new InputFile(new File("test.pdf")));
+        sendDocument.setDocument(new InputFile(file));
         for (Long chatId: chatIdList){
             sendDocument.setChatId(chatId);
             execute(sendDocument);
