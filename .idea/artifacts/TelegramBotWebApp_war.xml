@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="TelegramBotWebApp:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>TelegramBotWebApp</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="TelegramBotWebApp-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="TelegramBotWebApp:war exploded" />
+    </root>
+  </artifact>
+</component>
