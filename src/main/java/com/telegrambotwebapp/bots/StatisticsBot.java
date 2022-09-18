@@ -6,7 +6,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.telegrambotwebapp.entities.ActivityEntity;
 import com.telegrambotwebapp.services.DatabaseService;
-import com.telegrambotwebapp.services.MailService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
