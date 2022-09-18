@@ -60,6 +60,7 @@
           <element id="library" level="project" name="Maven: org.telegram:telegrambotsextensions:6.1.0" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.5.0" />
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.5.0" />
+          <element id="library" level="project" name="Maven: com.itextpdf:itextpdf:5.5.13.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">

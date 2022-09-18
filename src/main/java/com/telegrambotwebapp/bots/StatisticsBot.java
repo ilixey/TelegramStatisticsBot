@@ -1,12 +1,19 @@
 package com.telegrambotwebapp.bots;
 
-import com.telegrambotwebapp.services.DatabaseService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.telegrambotwebapp.entities.ActivityEntity;
+import com.telegrambotwebapp.services.DatabaseService;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,17 +42,37 @@ public class StatisticsBot extends TelegramLongPollingBot {
     }
 
     public void sendStatistics() throws TelegramApiException, IOException {
+        Document document = new Document();
         List<ActivityEntity> list = databaseService.getAllActivities();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (ActivityEntity activity: list){
-            stringBuilder.append("Activity id: " + activity.getId() + "\n").append("User name: " + activity.getName() + "\n").append("User surname: " + activity.getSurname() + "\n").append("Activity: " + activity.getActivity() + "\n").append("Duration: " + activity.getDuration() + " часов" + "\n").append("Date: " + activity.getDate() + "\n\n\n");
+        try{
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("test.pdf"));
+            document.open();
+            for (ActivityEntity activity: list){
+                document.add((new Paragraph("Id: " + activity.getId() + "\n" + "Name" + activity.getName() + "\n" + "Surname: " + activity.getSurname() + "\n" + "Activity: " + activity.getActivity() + "\n" + "Duration: " + activity.getDuration() + " часов" + "\n" + "Date of publish" + activity.getDate() + "\n\n\n")));
+            }
+            document.close();
+            pdfWriter.close();
+
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
         }
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setText(stringBuilder.toString());
+        SendDocument sendDocument = new SendDocument();
+        sendDocument.setDocument(new InputFile(new File("test.pdf")));
         for (Long chatId: chatIdList){
-            sendMessage.setChatId(chatId);
-            execute(sendMessage);
+            sendDocument.setChatId(chatId);
+            execute(sendDocument);
         }
+
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (ActivityEntity activity: list){
+//            stringBuilder.append("Activity id: " + activity.getId() + "\n").append("User name: " + activity.getName() + "\n").append("User surname: " + activity.getSurname() + "\n").append("Activity: " + activity.getActivity() + "\n").append("Duration: " + activity.getDuration() + " часов" + "\n").append("Date: " + activity.getDate() + "\n\n\n");
+//        }
+//        SendMessage sendMessage = new SendMessage();
+//        sendMessage.setText(stringBuilder.toString());
+//        for (Long chatId: chatIdList){
+//            sendMessage.setChatId(chatId);
+//            execute(sendMessage);
+//        }
     }
 
 }
